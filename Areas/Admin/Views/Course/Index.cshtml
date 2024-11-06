@@ -1,0 +1,95 @@
+﻿
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="searchCategory" class="font-weight-bold">Select Category</label>
+            <select class="form-control" id="searchCategory" onchange="filterCourses()">
+                <option value="all">All Fields</option>
+                <option value="name">Course Name</option>
+                <option value="category">Category</option>
+                <option value="trainer">Trainer</option>
+                <option value="description">Description</option>
+            </select>
+        </div>
+        <div class="col-md-9">
+            <label for="searchFilter" class="font-weight-bold">Search</label>
+            <input type="text" class="form-control" id="searchFilter" onkeyup="filterCourses()" placeholder="Search by selected category...">
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row" id="coursesContainer">
+        @foreach (var course in Model)
+        {
+            <div class="col-md-4 mb-4 course-card">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title course-name">@course.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted course-category">@course.CatogeryName</h6>
+                        <p class="card-text course-trainer"><strong>Trainer:</strong> @course.TrainerName</p>
+                        <p class="card-text course-description">@course.Description</p>
+                        <p class="card-text"><small class="text-muted">Created on @course.Creation_Date.ToShortDateString()</small></p>
+                        <div class="text-center">
+                            @if (!string.IsNullOrEmpty(course.Image_Id))
+                            {
+                                var imagePath = Url.Content("~/Uploads/Courses" + course.Image_Id);
+                                <img src="@imagePath" class="img-fluid" style="height: 150px; object-fit: cover;" alt="Course Image" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">No Image Available</span>
+                            }
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            @Html.ActionLink("Trainees", "Index", "Trainee", new { c_id = course.ID }, new { @class = "btn btn-sm btn-primary" })
+                            <div>
+                                @Html.ActionLink("Edit", "Edit", new { id = course.ID }, new { @class = "btn btn-sm btn-secondary mr-2" })
+                                @Html.ActionLink("Delete", "Delete", new { id = course.ID }, new { @class = "btn btn-sm btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
+
+<script>
+    function filterCourses() {
+        
+        var searchInput = document.getElementById("searchFilter").value.toLowerCase();
+        var searchCategory = document.getElementById("searchCategory").value;
+
+    
+        var cards = document.getElementsByClassName("course-card");
+
+
+        for (var i = 0; i < cards.length; i++) {
+            var card = cards[i];
+            var match = false;
+
+            if (searchCategory === "all") {
+                match = card.textContent.toLowerCase().indexOf(searchInput) > -1;
+            } else if (searchCategory === "name") {
+                match = card.querySelector(".course-name").textContent.toLowerCase().indexOf(searchInput) > -1;
+            } else if (searchCategory === "category") {
+                match = card.querySelector(".course-category").textContent.toLowerCase().indexOf(searchInput) > -1;
+            } else if (searchCategory === "trainer") {
+                match = card.querySelector(".course-trainer").textContent.toLowerCase().indexOf(searchInput) > -1;
+            } else if (searchCategory === "description") {
+                match = card.querySelector(".course-description").textContent.toLowerCase().indexOf(searchInput) > -1;
+            }
+
+          
+            card.style.display = match ? "block" : "none";
+        }
+    }
+</script>

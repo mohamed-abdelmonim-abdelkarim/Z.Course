@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="579fe3e9a2474af68e733c75085dd232" Name="Diagram1">
+        <EntityTypeShape EntityType="Cources_DbModel.Admin" Width="1.5" PointX="5.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Cources_DbModel.Catogery" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Cources_DbModel.Course" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Cources_DbModel.Trainee" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Cources_DbModel.Trainee_Courses" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Cources_DbModel.Trainer" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="Cources_DbModel.FK_Catogery_Catogery" ManuallyRouted="false" />
+        <AssociationConnector Association="Cources_DbModel.FK_Course_Catogery_id" ManuallyRouted="false" />
+        <AssociationConnector Association="Cources_DbModel.FK_Course_Trainer_id" ManuallyRouted="false" />
+        <AssociationConnector Association="Cources_DbModel.FK_Trainee_Courses_Course_id" ManuallyRouted="false" />
+        <AssociationConnector Association="Cources_DbModel.FK_Trainee_Courses_Trainee_id" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

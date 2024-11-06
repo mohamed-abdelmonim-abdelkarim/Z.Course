@@ -1,0 +1,101 @@
+﻿@model Courses.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<link href="~/css/user-style.css" rel="stylesheet" />
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card p-4 border-0 shadow-sm" style="max-width: 380px; border-radius: 15px;">
+        <h3 class="text-center mb-4 fw-bold" style="color: #333;">Sign In</h3>
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ReturnUrl)
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email", required = "required" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-4">
+                @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password", required = "required" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+
+            <button class="btn btn-gradient w-100 py-2 mb-3" type="submit">
+                Sign In
+            </button>
+
+            <div class="text-center mt-3">
+                <span class="text-secondary">Don't have an account?</span>
+                <a href="@Url.Action("Register", "Account")" class="btn btn-outline-primary w-100">Register</a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa; /* لون خلفية مريح */
+        font-family: 'Arial', sans-serif; /* نوع خط */
+    }
+
+    .card {
+        border-radius: 15px; /* زوايا دائرية للبطاقة */
+    }
+
+    .form-control {
+        border-radius: 25px; /* زوايا دائرية لحقول الإدخال */
+        padding: 15px; /* مسافة داخلية للحقول */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* تأثير ظل خفيف */
+        transition: box-shadow 0.3s; /* تأثير انتقال الظل */
+        border: 1px solid #ced4da; /* لون الحدود */
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 10px rgba(70, 130, 180, 0.5); /* تأثير ظل عند التركيز */
+            border-color: #4682b4; /* تغيير لون الحدود عند التركيز */
+            outline: none; /* إزالة التحديد الافتراضي */
+        }
+
+    .form-label {
+        margin-bottom: 0.5rem; /* مساحة بين التسمية والحقل */
+        font-weight: bold; /* جعل الخط غامق */
+        color: #495057; /* لون التسمية */
+        font-size: 0.9rem; /* حجم الخط للتسمية */
+        transition: color 0.3s; /* تأثير انتقال على اللون */
+    }
+
+    .text-danger {
+        font-size: 0.9rem; /* حجم خط رسائل الأخطاء */
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: #fff;
+        border: none;
+        border-radius: 25px; /* زوايا دائرية للزر */
+        transition: background 0.3s, box-shadow 0.3s; /* تأثير انتقال */
+    }
+
+        .btn-gradient:hover {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* تأثير ظل عند التحويم */
+            background: linear-gradient(135deg, #8f94fb, #a26bf5); /* تغيير اللون عند التحويم */
+        }
+
+    .btn-outline-primary {
+        border: 2px solid #007bff; /* لون الحدود لزر تسجيل الدخول */
+        border-radius: 25px; /* زوايا دائرية للزر */
+        color: #007bff; /* لون النص */
+        transition: background 0.3s, color 0.3s; /* تأثير انتقال */
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff; /* لون خلفية عند التحويم */
+            color: #fff; /* تغيير لون النص */
+        }
+</style>

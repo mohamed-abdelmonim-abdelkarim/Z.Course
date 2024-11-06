@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Cources_DbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Catogery">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Parent_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Creation_Date" Type="datetime" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Catogery_Id" Type="int" Nullable="false" />
+    <Property Name="Trainer_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="Course_Lesson">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Course_Id" Type="int" Nullable="false" />
+    <Property Name="Order_Number" Type="int" />
+  </EntityType>
+  <EntityType Name="Trainee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Creation_Date" Type="datetime" Nullable="false" />
+    <Property Name="Is_Active" Type="bit" />
+  </EntityType>
+  <EntityType Name="Trainee_Courses">
+    <Key>
+      <PropertyRef Name="trainee_Id" />
+      <PropertyRef Name="Course_id" />
+    </Key>
+    <Property Name="trainee_Id" Type="int" Nullable="false" />
+    <Property Name="Course_id" Type="int" Nullable="false" />
+    <Property Name="Registration_Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Trainer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="10" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Website" Type="nvarchar" MaxLength="250" />
+    <Property Name="Creation_Dtae" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Catogery_Catogery">
+    <End Role="Catogery" Type="Self.Catogery" Multiplicity="0..1" />
+    <End Role="Catogery1" Type="Self.Catogery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catogery">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Catogery1">
+        <PropertyRef Name="Parent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Course_Catogery_id">
+    <End Role="Catogery" Type="Self.Catogery" Multiplicity="1" />
+    <End Role="Course" Type="Self.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catogery">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Catogery_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Course_Lesson_Course_id">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="Course_Lesson" Type="Self.Course_Lesson" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Course_Lesson">
+        <PropertyRef Name="Course_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Course_Trainer_id">
+    <End Role="Trainer" Type="Self.Trainer" Multiplicity="0..1" />
+    <End Role="Course" Type="Self.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Trainer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Trainee_Courses_Course_id">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="Trainee_Courses" Type="Self.Trainee_Courses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Trainee_Courses">
+        <PropertyRef Name="Course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Trainee_Courses_Trainee_id">
+    <End Role="Trainee" Type="Self.Trainee" Multiplicity="1" />
+    <End Role="Trainee_Courses" Type="Self.Trainee_Courses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainee">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Trainee_Courses">
+        <PropertyRef Name="trainee_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Cources_DbModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Catogery" EntityType="Self.Catogery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Course_Lesson" EntityType="Self.Course_Lesson" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trainee_Courses" EntityType="Self.Trainee_Courses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trainer" EntityType="Self.Trainer" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Catogery_Catogery" Association="Self.FK_Catogery_Catogery">
+      <End Role="Catogery" EntitySet="Catogery" />
+      <End Role="Catogery1" EntitySet="Catogery" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Course_Catogery_id" Association="Self.FK_Course_Catogery_id">
+      <End Role="Catogery" EntitySet="Catogery" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Course_Lesson_Course_id" Association="Self.FK_Course_Lesson_Course_id">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="Course_Lesson" EntitySet="Course_Lesson" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Course_Trainer_id" Association="Self.FK_Course_Trainer_id">
+      <End Role="Trainer" EntitySet="Trainer" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Trainee_Courses_Course_id" Association="Self.FK_Trainee_Courses_Course_id">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="Trainee_Courses" EntitySet="Trainee_Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Trainee_Courses_Trainee_id" Association="Self.FK_Trainee_Courses_Trainee_id">
+      <End Role="Trainee" EntitySet="Trainee" />
+      <End Role="Trainee_Courses" EntitySet="Trainee_Courses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

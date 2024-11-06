@@ -1,0 +1,67 @@
+﻿@model Courses.Areas.Admin.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_OfflineLayout.cshtml";
+}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <!-- Outer Row -->
+    <div class="row justify-content-center w-100">
+        <div class="col-xl-4 col-lg-5 col-md-6">
+            <div class="card o-hidden border-0 shadow-lg">
+                <div class="card-body p-4">
+                    <!-- Card Content -->
+                    <div class="text-center mb-4">
+                        <h1 class="h4 text-gray-900">Login to Your Account</h1>
+                    </div>
+
+                    <!-- Login Form -->
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                    {
+                        <!-- Validation Summary -->
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                        <!-- Email or Phone Field -->
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Email, new { @class = "text-secondary fw-bold" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg shadow-sm", placeholder = "Email address or phone number" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Password, new { @class = "text-secondary fw-bold" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg shadow-sm", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" style="background-color: #1a73e8; border: none;">
+                            Log In
+                        </button>
+                    }
+
+                    <!-- Forgot Password Link -->
+                    <div class="text-center mt-3">
+                        <a class="small" href="#">Forgot Password?</a>
+                    </div>
+
+                    <hr>
+
+                    <!-- Create New Account Button -->
+                    <div class="text-center">
+                        <a href="/Account/Register" class="btn btn-success btn-lg btn-block" style="background-color: #28a745; border: none;">
+                            Create New Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display Error Message if login fails -->
+            @if (Model != null && Model.Message != null)
+            {
+                <div class="alert alert-danger mt-3 text-center">@Model.Message</div>
+            }
+        </div>
+    </div>
+</div>
